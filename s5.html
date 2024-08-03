@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agricultural biotechnology</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="index.html">
+  <link rel="stylesheet" href="s1.html">
+  <link rel="stylesheet" href="s2.html">
+  <link rel="stylesheet" href="s3.html">
+  <link rel="stylesheet" href="s4.html">
+  <link rel="stylesheet" href="s5.html">
+  <link rel="stylesheet" href="s6.html">
+  <link rel="stylesheet" href="s7.html">
+  <link rel="stylesheet" href="s8.html">
+  <link rel="stylesheet" href="s9.html">
+  <link rel="stylesheet" href="s10.html">
+  <link rel="stylesheet" href="contact.html">
+  <link rel="stylesheet" href="OurResearch.html">
+  <link rel="stylesheet" href="OurTeam.html">
+  <link rel="stylesheet" href="Career.html">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table For GTA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawVisualization);
+
+    function drawVisualization() {
+      // Some raw data (not necessarily accurate)
+      var data = google.visualization.arrayToDataTable([
+        ['Month', 'Corn (Maize)', 'Soybeans', 'Soybeans', 'Canola', 'Sugar beets', 'Average'],
+        ['2004/05', 165, 938, 522, 998, 450, 614.6],
+        ['2005/06', 135, 1120, 599, 1268, 288, 682],
+        ['2006/07', 157, 1167, 587, 807, 397, 623],
+        ['2007/08', 139, 1110, 615, 968, 215, 609.4],
+        ['2008/09', 136, 691, 629, 1026, 366, 569.6]
+      ]);
+
+      var options = {
+        title: 'Crop Yield',
+        vAxis: {
+          title: 'Cups'
+        },
+        hAxis: {
+          title: 'Month'
+        },
+        seriesType: 'bars',
+        series: {
+          5: {
+            type: 'line'
+          }
+        }
+      };
+
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#tableSelect').change(function () {
+        var selectedTable = $(this).val();
+        if (selectedTable === "table1") {
+          $('#dataContainer1').empty();
+          createTable(selectedTable);
+        } else if (selectedTable === "table2") {
+          $('#dataContainer').empty();
+          createTable1(selectedTable);
+        }
+      });
+
+       function createTable(table) {
+        $.ajax({
+          url: '/sentdata14',
+          type: 'GET',
+          success: function (data) {
+            // Process the data and create the table
+            var table = '<table class="table table-hover">';
+            table +=
+              '<thead><tr><th scope="col">NAME </th><th scope="col">Scientific_Name</th><th scope="col">Leaf </th><th scope="col">Stem</th><th scope="col">Fruit</th><th scope="col">Root</th><th scope="col">Season</th><th scope="col">Region</th></tr><</thead>';
+            table += '<tbody>';
+            for (var i = 0; i < data.length; i++) {
+              table += '<tr>';
+              table += '<td>' + data[i].NAME + '</td>';
+              table += '<td>' + data[i].Scientific_Name + '</td>';
+              table += '<td>' + data[i].Leaf + '</td>';
+              table += '<td>' + data[i].Stem + '</td>';
+              table += '<td>' + data[i].Fruit + '</td>';
+              table += '<td>' + data[i].Root + '</td>';
+              table += '<td>' + data[i].Season + '</td>';
+              table += '<td>' + data[i].Region + '</td>';
+              table += '</tr>';
+            }
+            table += '</tbody></table>';
+
+            // Display the table in the dataContainer div
+             $('#dataContainer').css('display', 'block');
+            $('#dataContainer').html(table);
+            $('#BackButton1').css('display', 'block');
+          },
+          error: function (xhr, status, error) {
+            console.log('Error:', error);
+          }
+        });
+       }
+
+
+  function createTable1(table) {
+  $.ajax({
+    url: '/senddata17',
+    type: 'GET',
+    data: {
+      table: table
+    },
+    success: function (data) {
+      var table = '<table class="table table-hover">';
+      table += '<thead><tr><th scope="col">TOOL_NAME</th><th scope="col">DESCRIPTION</th><th scope="col">Links</th></thead>';
+      table += '<tbody>';
+      for (var i = 0; i < data.length; i++) {
+        table += '<tr>';
+        table += '<td><a href="#" onclick="loadWebsite(\'' + data[i].LOCATION + '\')">' + data[i].NAME + '</a></td>';
+        table += '<td>' + data[i].DESCRIPTION + '</td>';
+        table += '<td><a href=' + data[i].LOCATION + '>click here</a></td>';
+        table += '</tr>';
+      }
+      table += '</tbody></table>';
+
+      // Display the table in the dataContainer div
+      $('#dataContainer1').css('display', 'block');
+      $('#dataContainer1').html(table);
+      $('#BackButton2').css('display', 'block');
+    },
+    error: function (xhr, status, error) {
+      console.log('Error:', error);
+    }
+  });
+}
+});
+function loadWebsite(url) {
+    var container = $('#websiteContainer');
+    var iframe = $('#websiteIframe');
+    var goBackButton = $('#goBackButton');
+    var menuBar = $('#tableSelect');
+    // Hide the table and show the website container and "Go Back" button
+    $('#dataContainer1,#content, #tableSelect').hide();
+    container.show();
+    goBackButton.show();
+
+    iframe.attr('src', url);
+}
+
+
+function goBack() {
+  var container = $('#websiteContainer');
+  var iframe = $('#websiteIframe');
+  var goBackButton = $('#goBackButton');
+  var menuBar = $('#tableSelect');
+  // Hide the website container and "Go Back" button, and show the table
+  container.hide();
+  goBackButton.hide();
+  $('#dataContainer1').show();
+  $('#tableSelect').show();
+  $('#content').show();
+  // Clear the iframe source
+  iframe.attr('src', '');
+  goback1();
+}
+function goback1() {
+  $('#dataContainer1').css('display', 'none');
+  $('#BackButton1').css('display', 'none');
+  $('#dataContainer').css('display', 'none');
+  $('#BackButton2').css('display', 'none');
+}
+</script>
+<script>
+    $(document).ready(function() {
+        $('#queryForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            // Get the query and k values from the input
+            const userQuery = $('#userQuery').val();
+            const kValue = $('#kValue').val();
+
+            // Send the query and k value to the API
+            $.ajax({
+                url: '/senddata30',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ query: userQuery, k: kValue }),
+                success: function(data) {
+                    // Process the data and create the table
+                    var table = '<table class="table table-hover">';
+                    table += '<thead><tr><th scope="col"><div style="width:40px;">TOOLNAME</div></th><th scope="col"><div style="width:40px;">DESCRIPTION</div></th><th scope="col"><div style="width:40px;">LINKS</div></th></thead>';
+                    table += '<tbody>';
+                    for (var i = 0; i < data.length; i++) {
+                        table += '<tr>';
+                        table += '<td><a href="#" onclick="loadWebsite(\'' + data[i].LOCATION + '\')">' + data[i].NAME + '</a></td>';
+                        table += '<td>' + data[i].DESCRIPTION + '</td>';
+                        table += '<td><a href="' + data[i].LOCATION + '">click here</a></td>';
+                        table += '</tr>';
+                    }
+                    table += '</tbody></table>';
+
+                    // Display the table in the dataContainer div
+                    $('#dataContainer2').css('display', 'block');
+                    $('#dataContainer2').html(table);
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+  </script>
+  <!--------------------------------------------------Bootsrap CSS CDN  -------------------------------------------->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style></style>
+  <script>
+    function downloadImage(imagePath, imagename) {
+      var link = document.createElement('a');
+      link.href = imagePath;
+      link.download = imagename; // Specify the desired file name
+      link.click();
+    }
+  </script>
+  <style>
+    @keyframes blink{
+      /* 50%{
+        color: yellow;
+      } */
+      15%{ color: #3f51b5;
+      }
+      15%{ color: floralwhite;
+      }
+      35%{ color: yellow;
+      }
+      15%{ color: pink;
+      }
+      15%{ color: springgreen;
+      }
+      15%{ color: lime;
+      }
+  
+    }
+  </style>
+
+  <style>
+    .details5{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+
+
+  <nav class="navbar" style="background-color: dodgerblue;margin-top: 0px;">
+    <div style="display: flex;">
+      <!-- <div>
+        <img src="Asset/hmlogo.png" alt="" style="height: 110px;width: 90px;">
+      </div> -->
+      <div style="padding-left: 420px;padding-top: 30px;">
+        <h2 style="font-size: 80px;margin-top: 0px; animation: blink 10s linear infinite;color: rgb(234, 12, 12);">Shyam Repositories</h2>
+      </div>
+    </div>
+
+  </nav>
+
+
+
+  <nav class="navbar navbar-expand-lg " style="background-color: rgb(46, 46, 159);">
+    <div class="container-fluid">
+      <!-- <a class="navbar-brand" href="index.html">
+        <h3>Shyam Repositories</h3>
+      </a> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5000" style="padding-left: 110px;">
+              <h3>Home</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="OurResearch.html" style="padding-left: 110px;">
+              <h3>Our Research</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="OurTeam.html" style="padding-left: 110px;">
+              <h3>Our Team</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="Career.html" style="padding-left: 110px;">
+              <h3>Career Opportunities</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="contact.html" style="padding-left: 110px;">
+              <h3>Contact Us</h3>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+  <!---------------------------------------- NavBar------------------------------------ -->
+  <!-- <nav class="navbar" style="background-color: rgb(18, 8, 129);height: 90px;">
+   <img src="Asset/collage_logo.png" alt="" style="height: 80px;width: 70px; padding-left: 0px; margin-left: 30px;">
+   <h1 style="padding-right: 440px; color: aqua;">Welcome To Shyam Repositories</h1>
+ </nav>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" class="navbar bg-primary" data-bs-theme="dark">
+ <div class="container-fluid">
+   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+     aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+     <span class="navbar-toggler-icon"></span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+     <a class="navbar-brand brand" href="index.html" style="color: slategray;">Shyam Repositories</a>
+     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+       <li class="nav-item">
+         <a class="nav-link active" aria-current="page" href="#">Our Tech</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#">Our Research</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#">Our Product</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#">Our Team</a>
+       </li>
+     </ul>
+     <img src="Asset/Logo.png" alt="" style="height: 60px; width: 150px; ">
+   </div>
+ </div>
+</nav>
+
+
+<nav class="navbar fixed-bottom navbar-expand-lg bg-body-tertiary" class="navbar bg-primary" data-bs-theme="dark" style="height: 50px;">
+ <div class="container-fluid">
+   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+     <form class="d-flex" role="search">
+       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+       <button class="btn btn-outline-success" type="submit">Search</button>
+     </form>
+   </div>
+ </div>
+</nav> -->
+<div id="content">
+  <div>
+    <img src="Asset/m5.png" alt=" " height="100%" width="100%">
+  </div>
+
+
+
+  <!-- <div class="bgimg s5s">
+ 
+        <div class="blur">
+          <div class="name">
+             <h1 class="bran">Agricultural biotechnology</h1>
+          </div>
+        <div class="gyan">   
+          <h3 style="color: #696969;">We offer services related to agricultural biotechnology, including genetically modified organism (GMO) analysis, crop improvement, Plant tissue culture,  bioremediation, waste management, and sustainable agricultural practices to reduce environmental impacts and Biopesticides and biocontrol agents development.</h3>
+
+       </div>
+        </div> -->
+
+<div style="padding-left: 50px;">
+    <select id="tableSelect"
+      style="padding: 15px;font-size: 16px;font-weight:700;font-family: 'Poppins',sans-serif;border: none;border-radius: 8px;border: 2px solid #3f51b5;box-shadow: 0 15px 15px #efefef;margin-top: 50px; margin-bottom: 50px;padding-right: 40px;">
+      <option value="" style="text-align: center;">Menu</option>
+      <option value="table1">Plant Database</option>
+      <option value="table2">Soil and Agriculture Database</option>
+    </select>
+  </div>
+  <div style="padding-left: 50px;">
+    <form id="queryForm">
+        <label for="userQuery" class="gfg1"><b>Search</b></label>
+        <input type="text" id="userQuery" name="userQuery" required class="gfg" style="margin-right: 10px;">
+
+        <label for="kValue" class="gfg1"><b>k</b></label>
+        <input type="text" id="kValue" name="kValue" required class="gfg2" style="margin-right: 10px;">
+
+        <button type="submit" class="btn-style">Submit</button>
+    </form>
+</div>
+
+<div id="dataContainer"></div>
+  <div id="dataContainer1"></div>
+    <div id="dataContainer2"></div>
+  <button id="BackButton1" class="btn-style" onclick="goback1()" style="display: none;" >Go Back</button>
+  <button id="BackButton2" class="btn-style" onclick="goback1()" style="display: none;" >Go Back</button>
+</div>
+    <div id="websiteContainer" style="display: none;">
+    <iframe id="websiteIframe" style="width:100%; height:1000px;"></iframe>
+    <button onclick="goBack()" class="btn-style">Go Back</button>
+  </div>
+
+
+  <div class="wrapper"
+  style="display: flex; max-width: 400px;padding-left: 50px;padding-top: 20px;padding-bottom: 50px;">
+  <div class="menu">
+    <select id="student-details5"
+      style="width: 100%;padding: 15px;font-size: 16px;font-weight:700;font-family: 'Poppins',sans-serif;border: none;border-radius: 8px;border: 2px solid #3f51b5;box-shadow: 0 15px 15px #efefef;padding-right: 190px;">
+      <option value="">Graph</option>
+      <option value="pie_chart5">Bar Graph</option>
+    </select>
+  </div>
+  </div>
+<div id="gb46" class="pie_chart5 details5" style="margin-bottom: 100px;padding-left: 500px;">
+<div id="chart_div" style="width: 200px; height: 50px;"></div>
+<!-- <button type="button" onclick="downloadImage('asset/gr5.png','gr5.png')"
+class="btn btn-secondary" style="width: 100px;margin-top: 200px;margin-left: 180px;margin-bottom: 50px;">Download</button> -->
+<div class="dropdown" style="margin-left: 150px;margin-top: 150px;padding-top: 20px;">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Download
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="Asset/gr5x.png" download="">png</a></li>
+    <li><a class="dropdown-item" href="Asset/gr5y.jpg" download="">jpg</a></li>
+    <li><a class="dropdown-item" href="Asset/gr5z.jpeg" download="">jpeg</a></li>
+  </ul>
+</div>
+<button id="gbb46" class="btn-style" style="margin-left: 700px;">Go Back</button>
+</div>
+
+
+
+
+
+
+  <!------------------------------------------------------Footer --------------------------------------------------------------->
+  <div class="foot">
+    <div class="logofo">
+      <div>
+        <h7
+          style="color: aliceblue; float: left;padding-right: 100px;padding-top: 25px;text-align: justify;padding-left: 30px;">
+          Disclaimer : The content provided on this biotech repository website is for general informational purposes only. The
+          information is gathered from various sources and is subject to change without notice. While we make every
+          effort to ensure the accuracy and reliability of the information presented, we do not guarantee its
+          completeness or timeliness. The materials and data available on this website do not constitute professional
+          advice or recommendations. Users are encouraged to seek qualified professional advice before making any
+          decisions based on the information provided here.</h7>
+      </div>
+      <!-- <div style="padding-right: 260px;padding-top: 70px;">
+        <img src="Asset/Logo.png" alt="" style="height: 100px; ">
+      </div> -->
+      <!-- <div class="footer-col-3">
+        <h3>Useful links</h3>
+        <ul>
+          <li>Overview</li>
+          <li>Blog</li>
+          <li>Partnerships</li>
+          <li>Publications</li>
+        </ul>
+      </div> -->
+      <!-- <div class="footer-col-4">
+        <h3>Follow us</h3>
+        <ul>
+          <li>Facebook</li>
+          <li>Twitter</li>
+          <li>Instagram</li>
+          <li>YouTube</li>
+        </ul>
+      </div> -->
+    </div>
+
+    <div class="copy1" style="padding-bottom: 0;padding-top: 10px; background-color: aliceblue;">
+      <a href="mailto:shyamperugu@nitw.ac.in" style="text-decoration: none; color: black; font-size: 15
+        
+        px;">Email-Us</a> <i class="fa-solid fa-envelope"></i> &emsp;
+      <a href="tel:+919948561761" style="text-decoration: none; color: black;font-size: 15px;">Call-Us</a> <i
+        class="fa-solid fa-headset"></i> &emsp;
+      <a href="https://wa.me/+919948561761" style="text-decoration: none; color: black;font-size: 15px;">Whatsapp</a> <i
+        class="fa-brands fa-whatsapp"></i> <br>
+      <!-- <a href="folder/xyz.pdf" style="text-decoration: none; color: black;font-size: 15px;">TERMS AND CONDITIONS</a> -->
+     
+      COPYRIGHT &copy; 2023-2024 &nbsp; www.Shyam_Repositories.com &nbsp; &nbsp; &nbsp; 
+      REGISTER &reg;  &nbsp; &nbsp;
+      TRADEMARK &trade;
+      
+    </div>
+
+  </div>
+
+  <!--                                        Jquery CDN                                          -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+  <!-----------------------------------------Bootstrap js CDN  --------------------------------------------->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+  </script>
+
+
+<script>
+  $(document).ready(function () {
+    $("#student-details5").change(function () {
+      var name = $("#student-details5").val();
+      $(".details5").hide();
+      $("." + name).show();
+      $("." + name).addClass("important");
+    })
+  })
+</script>
+
+<script>
+  document.getElementById("gbb46").onclick = function() { 
+              document.getElementById("gb46").style.display = "none";
+          } 
+   </script>
+
+</body>
+
+</html>

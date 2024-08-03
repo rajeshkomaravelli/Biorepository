@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genetic testing and analysis</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('home_page') }}">
+  <link rel="stylesheet" href="s1.html">
+  <link rel="stylesheet" href="s2.html">
+  <link rel="stylesheet" href="s3.html">
+  <link rel="stylesheet" href="s4.html">
+  <link rel="stylesheet" href="s5.html">
+  <link rel="stylesheet" href="s6.html">
+  <link rel="stylesheet" href="s7.html">
+  <link rel="stylesheet" href="s8.html">
+  <link rel="stylesheet" href="s9.html">
+  <link rel="stylesheet" href="s10.html">
+  <link rel="stylesheet" href="contact.html">
+  <link rel="stylesheet" href="OurResearch.html">
+  <link rel="stylesheet" href="OurTeam.html">
+  <link rel="stylesheet" href="Career.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table For GTA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script>
+    $(document).ready(function () {
+      $('#getDataBtn').click(function () {
+        $.ajax({
+          url: '/adding',
+          type: 'GET',
+          success: function (data) {
+            // Process the data and create the table
+            var table = '<table class="table table-hover">';
+            table +=
+              '<thead><tr><th scope="col">DISEASE  </th><th scope="col">TYPE_OF_INHERITANCE  </th><th scope="col">GENE_RESPONSIBLE  </th><th scope="col">GENE_LOCATION  </th><th scope="col">SYMPTOMS</th><th scope="col">PATHWAY</th><th scope="col">Pathwayimages</th><th scope="col">Histopathologyimages</th></tr><</thead>';
+            table += '<tbody>';
+            for (var i = 0; i < data.length; i++) {
+              table += '<tr>';
+              table += '<td>' + data[i].DISEASE + '</td>';
+              table += '<td>' + data[i].TYPE_OF_INHERITANCE + '</td>';
+              table += '<td>' + data[i].GENE_RESPONSIBLE + '</td>';
+              table += '<td>' + data[i].GENE_LOCATION + '</td>';
+              table += '<td>' + data[i].SYMPTOMS + '</td>';
+              table += '<td>' + data[i].PATHWAY + '</td>';
+              table += '<td><a href=' + data[i].Pathway_links + '>click here</a></td>';
+              table += '<td><a href=' + data[i].Histopathology_links + '>click here</a></td>';
+              table += '</tr>';
+            }
+            table += '</tbody></table>';
+
+            // Display the table in the dataContainer div
+            $('#dataContainer1').css('display', 'block');
+            $('#dataContainer1').html(table);
+            $('#goBackButton2').css('display', 'block');
+          },
+          error: function (xhr, status, error) {
+            console.log('Error:', error);
+          }
+        });
+      });
+    });
+ function goback1(){
+   document.getElementById('dataContainer1').style.display = 'none';
+  document.getElementById('goBackButton2').style.display = 'none';
+  }
+  </script>
+  <script>
+    function sendData() {
+      // Retrieve the form data
+      const form = document.getElementById("myForm");
+      const formData = new FormData(form);
+
+      // Make the API request
+      fetch("http://localhost:5000/senddata", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the API response
+          console.log(data);
+          // Perform any additional actions with the response
+          form.style.display = "none";
+        })
+        .catch(error => {
+          // Handle errors
+          console.error(error);
+        });
+    }
+  </script>
+  <script>
+    function downloadImage(imagePath, imagename) {
+      var link = document.createElement('a');
+      link.href = imagePath;
+      link.download = imagename; // Specify the desired file name
+      link.click();
+    }
+  </script>
+
+  </script>
+  <!--------------------------------------------------Bootsrap CSS CDN  -------------------------------------------->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {
+      packages: ["corechart"]
+    });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Chromosomal Aberrations', 11],
+        ['Point Mutations', 2],
+        ['Single Nucleotide Polymorphisms (SNPs)', 2],
+        ['Repeat Expansions', 2],
+        ['Copy Number Variations (CNVs)', 7]
+      ]);
+
+      var options = {
+        title: 'Proportions of different genetic variations in a mutant population.',
+        is3D: true,
+        width: 800,
+        height: 500
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+      chart.draw(data, options);
+    }
+  </script>
+
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {
+      packages: ['corechart', 'line']
+    });
+    google.charts.setOnLoadCallback(drawBasic);
+
+    function drawBasic() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'X');
+      data.addColumn('number', 'Mutations Rate');
+
+      data.addRows([
+        [0, 0],
+        [1, 10],
+        [2, 23],
+        [3, 17],
+        [4, 18],
+        [5, 9],
+        [6, 11],
+        [7, 27],
+        [8, 33],
+        [9, 40],
+        [10, 32],
+        [11, 35],
+        [12, 30],
+        [13, 40],
+        [14, 42],
+        [15, 47],
+        [16, 44],
+        [17, 48],
+        [18, 52],
+        [19, 54],
+        [20, 42],
+        [21, 55],
+        [22, 56],
+        [23, 57],
+        [24, 60],
+        [25, 50],
+        [26, 52],
+        [27, 51],
+        [28, 49],
+        [29, 53],
+        [30, 55],
+        [31, 60],
+        [32, 61],
+        [33, 59],
+        [34, 62],
+        [35, 65],
+        [36, 62],
+        [37, 58],
+        [38, 55],
+        [39, 61],
+        [40, 64],
+        [41, 65],
+        [42, 63],
+        [43, 66],
+        [44, 67],
+        [45, 69],
+        [46, 69],
+        [47, 70],
+        [48, 72],
+        [49, 68],
+        [50, 66],
+        [51, 65],
+        [52, 67],
+        [53, 70],
+        [54, 71],
+        [55, 72],
+        [56, 73],
+        [57, 75],
+        [58, 70],
+        [59, 68],
+        [60, 64],
+        [61, 60],
+        [62, 65],
+        [63, 67],
+        [64, 68],
+        [65, 69],
+        [66, 70],
+        [67, 72],
+        [68, 75],
+        [69, 80]
+      ]);
+
+      var options = {
+        hAxis: {
+          title: 'Decades (After 2000)'
+        },
+        vAxis: {
+          title: 'Population (in crores)'
+        },
+        width: 800,
+        height: 500
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+
+      chart.draw(data, options);
+    }
+  </script>
+
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawVisualization);
+
+    function drawVisualization() {
+      // Some raw data (not necessarily accurate)
+      var data = google.visualization.arrayToDataTable([
+        ['Month', 'Down syndrome', 'Turner syndrome', 'Klinefelter syndrome', 'Cri-du-chat syndrome',
+          'Philadelphia chromosome (Ph)', 'Average'
+        ],
+        ['Chromosomal_Aberrations', 165, 938, 522, 998, 450, 614.6],
+        ['Point_Mutations', 135, 1120, 599, 1268, 288, 682],
+        ['SNPs', 157, 1167, 587, 807, 397, 623],
+        ['Repeat_Expansions', 139, 1110, 615, 968, 215, 609.4],
+        ['CNVs', 136, 691, 629, 1026, 366, 569.6]
+      ]);
+
+      var options = {
+        title: 'Proportion of different diseases due to different mutations',
+        vAxis: {
+          title: 'Population in thousands'
+        },
+        hAxis: {
+          title: 'Genetic Variations'
+        },
+        seriesType: 'bars',
+        series: {
+          5: {
+            type: 'line'
+          }
+        },
+        width: 800,
+        height: 500
+      };
+
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+  </script>
+
+
+  <style>
+    .details1 {
+      display: none;
+    }
+
+    .important {
+      padding-left: 560px;
+      block-size: 1200px !important;
+      height: 500px !important;
+      width: 100% !important;
+    }
+
+    .download-btn {
+      background-color: DodgerBlue;
+      color: white;
+      padding: 0 5px;
+      font-size: 30px;
+      text-decoration: none;
+      border-radius: 5px;
+
+    }
+
+    .download-btn:hover {
+      background-color: RoyalBlue;
+    }
+
+    .s1inc {
+      display: none;
+    }
+  </style>
+   <script>
+    function downloadImage(imagePath, imagename) {
+      var link = document.createElement('a');
+      link.href = imagePath;
+      link.download = imagename; // Specify the desired file name
+      link.click();
+    }
+  </script>
+  <style>
+    @keyframes blink{
+      /* 50%{
+        color: yellow;
+      } */
+      15%{ color: #3f51b5;
+      }
+      15%{ color: floralwhite;
+      }
+      35%{ color: yellow;
+      }
+      15%{ color: pink;
+      }
+      15%{ color: springgreen;
+      }
+      15%{ color: lime;
+      }
+  
+    }
+  </style>
+</head>
+
+<body>
+
+  <!---------------------------------------- NavBar------------------------------------ -->
+
+
+  <nav class="navbar" style="background-color: dodgerblue;margin-top: 0px;">
+    <div style="display: flex;">
+      <!-- <div>
+        <img src="Asset/hmlogo.png" alt="" style="height: 110px;width: 90px;">
+      </div> -->
+      <div style="padding-left: 420px;padding-top: 30px;">
+        <h2 style="font-size: 80px;margin-top: 0px; animation: blink 10s linear infinite;color: rgb(234, 12, 12);">Shyam Repositories</h2>
+      </div>
+    </div>
+
+  </nav>
+
+
+
+ <nav class="navbar navbar-expand-lg " style="background-color: rgb(46, 46, 159);">
+    <div class="container-fluid">
+      <!-- <a class="navbar-brand" href="index.html">
+        <h3>Shyam Repositories</h3>
+      </a> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5000" style="padding-left: 110px;">
+              <h3>Home</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="OurResearch.html" style="padding-left: 110px;">
+              <h3>Our Research</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="OurTeam.html" style="padding-left: 110px;">
+              <h3>Our Team</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="Career.html" style="padding-left: 110px;">
+              <h3>Career Opportunities</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="contact.html" style="padding-left: 110px;">
+              <h3>Contact Us</h3>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- <nav class="navbar" style="background-color: rgb(18, 8, 129);height: 90px;">
+      <img src="Asset/collage_logo.png" alt="" style="height: 80px;width: 70px; padding-left: 0px; margin-left: 30px;">
+      <h1 style="padding-right: 440px; color: aqua;">Welcome To Shyam Repositories</h1>
+    </nav>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" class="navbar bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand brand" href="index.html" style="color: slategray;">Shyam Repositories</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Our Tech</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Our Research</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Our Product</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Our Team</a>
+          </li>
+        </ul>
+        <img src="Asset/logo.png" alt="" style="height: 60px; width: 150px; ">
+      </div>
+    </div>
+  </nav> -->
+
+
+  <!------------------------------------------------------nav-------------------------------------->
+  <!-- <nav class="navbar fixed-bottom navbar-expand-lg bg-body-tertiary" class="navbar bg-primary" data-bs-theme="dark" style="height: 50px;">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav> -->
+
+  <div>
+    <img src="Asset/m1.png" alt=" " height="100%" width="100%">
+  </div>
+
+
+  <!-- <div class="bgimg s1s">
+
+    <div class="">
+      <div class="name">
+        <h1 class="bran">Genetic testing and analysis</h1>
+      </div>
+      <div class="gyan">
+        <h3 style="color: #696969;">We offer genetic testing services, which include DNA sequencing, genotyping, and
+          analysis of genetic data. We have revolutionized healthcare and personalized medicine, providing valuable
+          information for individuals to make informed decisions about their health and well-being. </h3>
+
+      </div>
+
+    </div>
+  </div> -->
+
+
+
+  <!-- <div class="learn" style="padding-bottom: 30px;padding-left: 710px;"> -->
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-secondary tyu" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Download
+    </button> -->
+
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Sign Up</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form name="signing" id="myForm"> -->
+              <!--<form id="myForm" onsubmit="return validation()">-->
+              <!-- <div class="mb-3">
+                <label for="exampleInputName1" class="form-label">Name</label>
+                <input name="User_Name" type="text" class="form-control" id="exampleInputName1">
+                <div id="emailHelp" class="form-text"></div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input name="User_Email" type="email" placeholder="email" class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+                <span id="erroremail" style="font-size: 10px;color: red;"></span>
+                <div class="form-text">We'll never share your email with anyone else.</div>
+              </div> -->
+              <!-- <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input name="User_Password" type="password"  class="form-control" id="exampleInputPassword1">
+                  </div> -->
+              <!-- <div class="mb-3">
+                <label for="exampleInput1" class="form-label">Purpose For Download</label>
+                <input type="text" name="Reason_For_Download" class="form-control" id="exampleInputReason1">
+                <div id="emailHelp" class="form-text"></div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputName1" class="form-label">Organization Belonging To</label>
+                <input name="Organization_Belonging_To" type="text" class="form-control" id="exampleInputName2">
+                <div id="emailHelp" class="form-text"></div>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+              </div> -->
+              <!--<button type="button" onclick="sendData()" class="btn-style">Submit</button>-->
+              <!--</form>-->
+            <!-- </form>
+            <button type="button" onclick="sendData()" class="btn-style">Submit</button>
+             <button type="button" class="btn btn-primary" data-bs-dismiss="modal"> <a href="Asset/s1.jpg"
+                download='piechartImg' class="download-btn">Download
+                <i class="fa fa-download"></i>
+              </a> </button> 
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div> -->
+
+
+
+  <!-- <div style="padding-left: 30px;padding-right: 30px;">
+    <h5>Genetic mutations are changes that occur in the DNA sequence of an organism's genome. They can be caused by
+      various factors, including errors during DNA replication, exposure to certain chemicals or radiation, and
+      inherited genetic variations. Mutations can have a wide range of effects, from being harmless to causing genetic
+      diseases</h5>
+  </div> -->
+
+  <div style="padding-left: 50px; padding-top: 40px;padding-bottom: 30px;" >
+    <select name="strng" id="strong1"
+      style="padding: 15px;font-size: 16px;font-weight:700;font-family: 'Poppins',sans-serif;border: none;border-radius: 8px;border: 2px solid #3f51b5;box-shadow: 0 15px 15px #efefef;">
+      <option value="">Disorder and It's Histopathology</option>
+
+      <option value="s1_6">Accelerated Aging</option>
+      <option value="s1_31">Achondroplasia</option>
+      <option value="s1_12">Angelman Syndrome</option>
+      <option value="s1_41">Alkaptonuria</option>
+      <option value="s1_25">Alpha Thalassemia</option>
+
+      <option value="s1_26">Beta Thalassemia</option>
+      <option value="s1_4">BMP Pathway</option>
+      <option value="s1_19">Bloom Syndrome</option>
+      
+      <option value="s1_30">Charcot Marie Tooth</option>
+      <option value="s1_32">Cri du chat</option>
+      <option value="s1_11">Cystic Fibrosis</option>
+
+      <option value="s1_7">Dopamine Pathway</option>
+      <option value="s1_27">Down Syndrome</option>
+
+      <option value="s1_37">Edward Syndrome</option>
+
+      <option value="s1_44">Familial Hypercholesterolemia</option>
+      <option value="s1_15">Fragile X Syndrome</option>
+
+      <option value="s1_22">Galactosemic Syndrome</option>
+      <option value="s1_33">Gaucher Disease</option>
+
+      <option value="s1_45">Hereditary Hemochromatosis</option>
+      <option value="s1_43">Hereditary Spastic Paraplegia</option>
+      <option value="s1_39">Hirschsprung's Disease</option>
+      <option value="s1_40">Hypertrichosis</option>
+
+      <option value="s1_34">Klinefelter Syndrome</option>
+
+      <option value="s1_21">Lynch Syndrome</option>
+
+      <option value="s1_16">Marfan Syndrome</option>
+      <option value="s1_14">Muscular Dystrophy</option>
+      <option value="s1_20">Mytonic Dystrophy</option>
+
+      <option value="s1_38">Oculocutaneous Albinism</option>
+      <option value="s1_35">Osteogenesis</option>
+      <option value="s1_3">Osteogenesis Imperfecta</option>     
+
+      <option value="s1_2">Parkinson's Disease</option>    
+      <option value="s1_10">Phenylketonuria</option>
+      <option value="s1_17">Polycystic Kidney</option>
+      <option value="s1_13">Prader Willi syndrome</option>
+
+      <option value="s1_8">Retinal Detachment</option>
+      <option value="s1_1">Retinitis Pigmentosa</option>
+
+      <option value="s1_36">Sickle Cell Anemia</option>
+      <option value="s1_24">Stickler Syndrome</option>
+
+      <option value="s1_28">Tay-Sachs Disease</option>
+      <option value="s1_9">Turner Syndrome</option>  
+
+      <option value="s1_18">Williams Syndrome</option>      
+      <option value="s1_23">Wilson's Disease</option>
+
+      
+      <option value="s1_5">Vascular Remodeling</option>
+      <option value="s1_42">Von Hippel-Lindau Disease</option>
+      <option value="s1_29">Von Willibrand Disease</option>
+      
+
+    </select>
+  </div>
+  
+
+  <div style="display: flex; ">
+    <div>
+      <div id="gb1" class="s1_1 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Retinitis Pigmentosa.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Retinitis Pigmentosa.jpeg','Retinitis Pigmentosa.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download </button>
+        </div>
+        
+      </div>
+      <div id="gb2" class="s1_2 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Parkinsons Disease.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Parkinsons Disease.jpeg','Parkinsons Disease.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb3" class="s1_3 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Osteogenesis Imperfecta.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Osteogenesis Imperfecta.jpeg','Osteogenesis Imperfecta.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb4" class="s1_4 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/BMP Pathway.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/BMP Pathway.jpeg','BMP Pathway.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb5" class="s1_5 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Vascular Remodeling.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Vascular Remodeling.jpeg','Vascular Remodeling.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb6" class="s1_6 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Accelerated Aging.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Accelerated Aging.jpg','Accelerated Aging.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb7" class="s1_7 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Dopamine Pathway.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Dopamine Pathway.jpeg','Dopamine Pathway.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb8" class="s1_8 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Retinal Detachment.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Retinal Detachment.jpeg','Retinal Detachment.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+
+      <div id="gb9" class="s1_9 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Turner syndrome.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Turner syndrome.png','Turner syndrome.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb10" class="s1_10 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Phenylketonuria.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Phenylketonuria.jpg','Phenylketonuria.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb11" class="s1_11 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Cystic fibrosis.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Cystic fibrosis.jpg','Cystic fibrosis.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb12" class="s1_12 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Angelman syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Angelman syndrome.jpg','Angelman syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb13" class="s1_13 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Prader Willi syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Prader Willi syndrome.jpg','Prader Willi syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb14" class="s1_14 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Muscular Dystrophy.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Muscular Dystrophy.jpg','Muscular Dystrophy.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb15" class="s1_15 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Fragile X syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Fragile X syndrome.jpg','Fragile X syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb16" class="s1_16 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Marfan syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Marfan syndrome.jpg','Marfan syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+
+      <div id="gb17" class="s1_17 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Polycystic Kidney.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Polycystic Kidney.jpg','Polycystic Kidney.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb18" class="s1_18 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Williams syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Williams syndrome.jpg','Williams syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb19" class="s1_19 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Bloom syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Bloom syndrome.jpg','Bloom syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb20" class="s1_20 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Mytonic Dystrophy.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Mytonic Dystrophy.jpg','Mytonic Dystrophy.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb21" class="s1_21 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Lynch syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Lynch syndrome.jpg','Lynch syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb22" class="s1_22 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Galactosemic syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Galactosemic syndrome.jpg','Galactosemic syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb23" class="s1_23 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Wilson disease.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Wilson disease.jpg','Wilson disease.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb24" class="s1_24 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Stickler syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Stickler syndrome.jpg','Stickler syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+
+      <div id="gb25" class="s1_25 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Alpha Thalassemia.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Alpha Thalassemia.png','Alpha Thalassemia.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb26" class="s1_26 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Beta Thalassemia.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Beta Thalassemia.png','Beta Thalassemia.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb27" class="s1_27 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Down syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Down syndrome.jpg','Down syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb28" class="s1_28 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Tay-Sachs Disease.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Tay-Sachs Disease.jpg','Tay-Sachs Disease.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb29" class="s1_29 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Von Willibrand disease.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Von Willibrand disease.jpg','Von Willibrand disease.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb30" class="s1_30 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Charcot Marie Tooth.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Charcot Marie Tooth.jpg','Charcot Marie Tooth.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb31" class="s1_31 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Achondroplasia.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Achondroplasia.jpg','Achondroplasia.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb32" class="s1_32 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Cri du chat.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Cri du chat.jpg','Cri du chat.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb33" class="s1_33 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Gaucher disease.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Gaucher disease.png','Gaucher disease.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb34" class="s1_34 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Klinefelter syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Klinefelter syndrome.jpg','Klinefelter syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb35" class="s1_35 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Osteogenesis.jpeg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Osteogenesis.jpeg','Osteogenesis.jpeg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb36" class="s1_36 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Sickle cell anemia.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Sickle cell anemia.jpg','Sickle cell anemia.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb37" class="s1_37 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Edward syndrome.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Edward syndrome.jpg','Edward syndrome.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb38" class="s1_38 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Oculocutaneous albinism.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Oculocutaneous albinism.jpg','Oculocutaneous albinism.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb39" class="s1_39 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hirschsprung disease.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Hirschsprung disease.png','Hirschsprung disease.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb40" class="s1_40 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hypertrichosis.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Hypertrichosis.png','Hypertrichosis.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb41" class="s1_41 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Alkaptonuria.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Alkaptonuria.jpg','Alkaptonuria.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb42" class="s1_42 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Von Hippel-Lindau disease.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Von Hippel-Lindau disease.png','Von Hippel-Lindau disease.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb43" class="s1_43 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hereditary spastic paraplegia.jpg" alt=""
+            style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Hereditary spastic paraplegia.jpg','Hereditary spastic paraplegia.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb44" class="s1_44 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Familial hypercholesterolemia.jpg" alt=""
+            style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Familial hypercholesterolemia.jpg','Familial hypercholesterolemia.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+      <div id="gb45" class="s1_45 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hereditary hemochromatosis.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Hereditary hemochromatosis.jpg','Hereditary hemochromatosis.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+
+    <div>
+      <div id="gb1a" class="s1_1 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Retinitis Pigmentosa a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Retinitis Pigmentosa a.jpg','Retinitis Pigmentosa a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb1" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb2a" class="s1_2 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Parkinsons Disease a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Parkinsons Disease a.jpg','Parkinsons Disease a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb2" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb3a" class="s1_3 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Osteogenesis Imperfecta a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Osteogenesis Imperfecta a.jpg','Osteogenesis Imperfecta a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb3" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb4a" class="s1_4 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/BMP Pathway a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/BMP Pathway a.jpg','BMP Pathway a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb4" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb5a" class="s1_5 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Vascular Remodeling a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Vascular Remodeling a.jpg','Vascular Remodeling a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb5" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb6a" class="s1_6 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Accelerated Aging a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Accelerated Aging a.jpg','Accelerated Aging a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb6" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb7a" class="s1_7 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Dopamine Pathway a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Dopamine Pathway a.jpg','Dopamine Pathway a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb7" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb8a" class="s1_8 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Retinal Detachment a.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Retinal Detachment a.png','Retinal Detachment a.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb8" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb9a" class="s1_9 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Turner syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Turner syndrome a.jpg','Turner syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb9" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb10a" class="s1_10 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Phenylketonuria a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Phenylketonuria a.jpg','Phenylketonuria a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb10" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb11a" class="s1_11 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Cystic fibrosis a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Cystic fibrosis a.jpg','Cystic fibrosis a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb11" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb12a" class="s1_12 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Angelman syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Angelman syndrome a.jpg','Angelman syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb12" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb13a" class="s1_13 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Prader Willi syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Prader Willi syndrome a.jpg','Prader Willi syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb13" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb14a" class="s1_14 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Muscular Dystrophy a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Muscular Dystrophy a.jpg','Muscular Dystrophy a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb14" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb15a" class="s1_15 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Fragile X syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Fragile X syndrome a.jpg','Fragile X syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb15" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb16a" class="s1_16 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Marfan syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Marfan syndrome a.jpg','Marfan syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb16" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+
+      <div id="gb17a" class="s1_17 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Polycystic Kidney a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Polycystic Kidney a.jpg','Polycystic Kidney a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb17" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb18a" class="s1_18 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Williams syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Williams syndrome a.jpg','Williams syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb18" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb19a" class="s1_19 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Bloom syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Bloom syndrome a.jpg','Bloom syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb19" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb2a" class="s1_20 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Mytonic Dystrophy a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Mytonic Dystrophy a.jpg','Mytonic Dystrophy a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb20" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb21a" class="s1_21 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Lynch syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Lynch syndrome a.jpg','Lynch syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb21" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb22a" class="s1_22 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Galactosemic syndrome a.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Galactosemic syndrome a.png','Galactosemic syndrome a.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb22" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb23a" class="s1_23 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Wilson disease a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Wilson disease a.jpg','Wilson disease a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb23" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb24a" class="s1_24 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Stickler syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Stickler syndrome a.jpg','Stickler syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb24" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+
+      <div id="gb25a" class="s1_25 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Alpha Thalassemia a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Alpha Thalassemia a.jpg','Alpha Thalassemia a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb25" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb26a" class="s1_26 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Beta Thalassemia a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Beta Thalassemia a.jpg','Beta Thalassemia a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb26" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb27a" class="s1_27 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Down syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Down syndrome a.jpg','Down syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb27" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb28a" class="s1_28 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Tay-Sachs Disease a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Tay-Sachs Disease a.jpg','Tay-Sachs Disease a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb28" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb29a" class="s1_29 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Von Willibrand disease a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Von Willibrand disease a.jpg','Von Willibrand disease a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb29" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb30a" class="s1_30 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Charcot Marie Tooth a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Charcot Marie Tooth a.jpg','Charcot Marie Tooth a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb30" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb31a" class="s1_31 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Achondroplasia a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Achondroplasia a.jpg','Achondroplasia a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb31" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb32a" class="s1_32 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Cri du chat a.png" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Cri du chat a.png','Cri du chat a.png')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb32" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb33a" class="s1_33 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Gaucher disease a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Gaucher disease a.jpg','Gaucher disease a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb33" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb34a" class="s1_34 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Klinefelter syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Klinefelter syndrome a.jpg','Klinefelter syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb34" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb35a" class="s1_35 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>lkui& RX*   %
+          <imgl src="asset/Osteogenesis a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Osteogenesis.jpg','Osteogenesis.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb35" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb36a" class="s1_36 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Sickle cell anemia a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Sickle cell anemia a.jpg','Sickle cell anemia a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb36" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb37a" class="s1_37 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Edward syndrome a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Edward syndrome a.jpg','Edward syndrome a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb37" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb38a" class="s1_38 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Oculocutaneous albinism a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Oculocutaneous albinism a.jpg','Oculocutaneous albinism a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb38" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb39a" class="s1_39 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hirschsprung disease a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Hirschsprung disease a.jpg','Hirschsprung disease a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb39" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb40a" class="s1_40 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hypertrichosis a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Hypertrichosis a.jpg','Hypertrichosis a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb40" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb41a" class="s1_41 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Alkaptonuria a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button" onclick="downloadImage('asset/Alkaptonuria a.jpg','Alkaptonuria a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb41" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb42a" class="s1_42 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Von Hippel-Lindau disease a.jpg" alt="" style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Von Hippel-Lindau disease a.jpg','Von Hippel-Lindau disease a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb42" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb43a" class="s1_43 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hereditary spastic paraplegia a.jpg" alt=""
+            style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Hereditary spastic paraplegia a.jpg','Hereditary spastic paraplegia a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb43" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb44a" class="s1_44 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Familial hypercholesterolemia a.jpg" alt=""
+            style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Familial hypercholesterolemia a.jpg','Familial hypercholesterolemia a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb44" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+      <div id="gb45a" class="s1_45 s1inc" style="padding-left: 100px;padding-top: 40px;">
+        <div>
+          <img src="asset/Hereditary hemochromatosis a.jpg" alt=""
+            style="height: 500px;width: 600px;padding-left: 0px;">
+        </div>
+        <div>
+          <button type="button"
+            onclick="downloadImage('asset/Hereditary hemochromatosis a.jpg','Hereditary hemochromatosis a.jpg')"
+            class="btn btn-secondary" style="width: 100px;margin-top: 30px;margin-left: 250px;">Download</button>
+        </div>
+        <button id="gbb45" class="btn-style" style="margin-left: 500px;margin-top: 50px;">Go Back</button>
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+  <!-- <h2 style="padding-top: 40px;padding-left: 350px;">Various plots dealing with different mutations and diseases</h2> -->
+
+  <div class="wrapper"
+    style="display: flex;margin: 0 auto;padding: 70px 0px; max-width: 400px;margin-left: 50px;">
+    <div class="menu">
+      <select id="student-details1"
+        style="width: 100%;padding: 15px;padding-right: 180px; font-size: 16px;font-weight:700;font-family: 'Poppins',sans-serif;border: none;border-radius: 8px;border: 2px solid #3f51b5;box-shadow: 0 15px 15px #efefef;">
+        <option value="">Graphs</option>
+        <option value="Pie_Chart1">Pie Chart</option>
+        <option value="Line_Chart1">Line Chart</option>
+        <option value="Bar_Graph1">Bar Graph</option>
+      </select>
+    </div>
+  </div>
+
+
+<div id="gb46" class="Pie_Chart1 details1" style="padding-left: 0%;margin-left: 0%;margin-bottom: 100px;">
+  <div class="Pie_Chart1 details1" id="piechart_3d" style="width: 800px; height: 500px;" style="padding-left: 0%;"></div>
+  <!-- <button type="button" onclick="downloadImage('asset/gr1i.png','gr1i.png')"
+  class="btn btn-secondary" style="width: 100px;margin-top: 0px;margin-left: 860px;margin-bottom: 50px;">Download</button> -->
+<div class="dropdown" style="margin-left: 1000px;margin-top: 0px;">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Download
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="Asset/gr1iiix.png" download="">png</a></li>
+      <li><a class="dropdown-item" href="Asset/gr1iiiy.jpg" download="">jpg</a></li>
+      <li><a class="dropdown-item" href="Asset/gr1iiiz.jpeg" download="">jpeg</a></li>
+    </ul>
+  </div>
+  <button id="gbb46" class="btn-style" style="margin-left: 1300px;">Go Back</button>
+</div>
+<div id="gb47" class="Line_Chart1 details1" style="padding-left: 0%;margin-bottom: 100px;">
+  <div class="Line_Chart1 details1" id="chart_div1" style="width:800px;height: 500px;"></div>
+  <!-- <button type="button" onclick="downloadImage('asset/gr1ii.png','gr1ii.png')"
+  class="btn btn-secondary" style="width: 100px;margin-top: 0px;margin-left: 950px;margin-bottom: 50px;">Download</button> -->
+  <div class="dropdown" style="margin-left: 1000px;margin-top: 0px;">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Download
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="Asset/gr1iix.png" download="">png</a></li>
+      <li><a class="dropdown-item" href="Asset/gr1iiy.jpg" download="">jpg</a></li>
+      <li><a class="dropdown-item" href="Asset/gr1iiz.jpeg" download="">jpeg</a></li>
+    </ul>
+  </div>
+  <button id="gbb47" class="btn-style" style="margin-left: 1300px;">Go Back</button>
+</div>
+<div id="gb48" class="Bar_Graph1 details1" style="padding-left: 0%;margin-bottom: 100px;">
+  <div class="Bar_Graph1 details1" id="chart_div" style="width:800%; height: 500px;"></div>
+  <!-- <button type="button" onclick="downloadImage('asset/gr1iii.png','gr1iii.png')"
+  class="btn btn-secondary" style="width: 100px;margin-top: 0px;margin-left: 950px;margin-bottom: 50px;">Download</button> -->
+  <div class="dropdown" style="margin-left: 1000px;margin-top: 0px;">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Download
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="Asset/gr1iiix.png" download="">png</a></li>
+      <li><a class="dropdown-item" href="Asset/gr1iiiy.jpg" download="">jpg</a></li>
+      <li><a class="dropdown-item" href="Asset/gr1iiiz.jpeg" download="">jpeg</a></li>
+    </ul>
+  </div>
+  <button id="gbb48" class="btn-style" style="margin-left: 1300px;">Go Back</button>
+</div>
+
+
+
+
+  <button id="getDataBtn" class="btn-style" style="margin-left: 50px;">For more</button>
+ <div id="dataContainer1"></div>
+  <button id="goBackButton2" class="btn-style" onclick="goback1()" style="display: none;" >Go Back</button>
+
+  <!------------------------------------------------------Footer --------------------------------------------------------------->
+  <div class="foot">
+    <div class="logofo">
+      <div>
+        <h7
+          style="color: aliceblue; float: left;padding-right: 100px;padding-top: 25px;text-align: justify;padding-left: 30px;">
+          Disclaimer : The content provided on this biotech repository website is for general informational purposes only. The
+          information is gathered from various sources and is subject to change without notice. While we make every
+          effort to ensure the accuracy and reliability of the information presented, we do not guarantee its
+          completeness or timeliness. The materials and data available on this website do not constitute professional
+          advice or recommendations. Users are encouraged to seek qualified professional advice before making any
+          decisions based on the information provided here.</h7>
+      </div>
+      <!-- <div style="padding-right: 260px;padding-top: 70px;">
+        <img src="Asset/Logo.png" alt="" style="height: 100px; ">
+      </div> -->
+      <!-- <div class="footer-col-3">
+        <h3>Useful links</h3>
+        <ul>
+          <li>Overview</li>
+          <li>Blog</li>
+          <li>Partnerships</li>
+          <li>Publications</li>
+        </ul>
+      </div> -->
+      <!-- <div class="footer-col-4">
+        <h3>Follow us</h3>
+        <ul>
+          <li>Facebook</li>
+          <li>Twitter</li>
+          <li>Instagram</li>
+          <li>YouTube</li>
+        </ul>
+      </div> -->
+    </div>
+
+    <div class="copy1" style="padding-bottom: 0;padding-top: 10px; background-color: aliceblue;">
+      <a href="mailto:shyamperugu@nitw.ac.in" style="text-decoration: none; color: black; font-size: 15
+        
+        px;">Email-Us</a> <i class="fa-solid fa-envelope"></i> &emsp;
+      <a href="tel:+919948561761" style="text-decoration: none; color: black;font-size: 15px;">Call-Us</a> <i
+        class="fa-solid fa-headset"></i> &emsp;
+      <a href="https://wa.me/+919948561761" style="text-decoration: none; color: black;font-size: 15px;">Whatsapp</a> <i
+        class="fa-brands fa-whatsapp"></i> <br>
+      <!-- <a href="folder/xyz.pdf" style="text-decoration: none; color: black;font-size: 15px;">TERMS AND CONDITIONS</a> -->
+     
+      COPYRIGHT &copy; 2023-2024 &nbsp; www.Shyam_Repositories.com &nbsp; &nbsp; &nbsp; 
+      REGISTER &reg;  &nbsp; &nbsp;
+      TRADEMARK &trade;
+      
+    </div>
+
+  </div>
+
+  <!--                                        Jquery CDN                                          -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+  <!-----------------------------------------Bootstrap js CDN  --------------------------------------------->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+  </script>
+
+
+
+  <script>
+    $(document).ready(function () {
+      $("#student-details1").change(function () {
+        var name = $("#student-details1").val();
+        $(".details1").hide();
+        $("." + name).show();
+        $("." + name).addClass("important");
+      })
+    })
+  </script>
+
+
+  <script>
+    $(document).ready(function () {
+      $("#strong1").change(function () {
+        var name = $(this).val();
+        $(".s1inc").hide();
+        $("." + name).show();
+      })
+    })
+  </script>
+
+  <script>
+    function validation() {
+      var email = document.getElementById('exampleInputEmail1').value;
+      var emailcheck = /^[A-Za-z0-9._]{3, }@[A-Za-z0-9]{3,}[.]{1}[A-Za-z]{2,6}$/;
+      if (emailcheck.text(email)) {
+        document.getElementById('erroremail').innerHTML = "";
+      } else {
+        document.getElementById('erroremail').innerHTML = "Follow right email syntax";
+        return false;
+      }
+
+
+    }
+  </script>
+
+
+<script>
+
+
+        document.getElementById("gbb1").onclick = function() { 
+            document.getElementById("gb1").style.display = "none";
+            document.getElementById("gb1a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb2").onclick = function() { 
+            document.getElementById("gb2").style.display = "none";
+            document.getElementById("gb2a").style.display = "none"; 
+        } 
+        document.getElementById("gbb3").onclick = function() { 
+            document.getElementById("gb3").style.display = "none";
+            document.getElementById("gb3a").style.display = "none"; 
+        } 
+        document.getElementById("gbb4").onclick = function() { 
+            document.getElementById("gb4").style.display = "none";
+            document.getElementById("gb4a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb5").onclick = function() { 
+            document.getElementById("gb5").style.display = "none";
+            document.getElementById("gb5a").style.display = "none"; 
+        } 
+        document.getElementById("gbb6").onclick = function() { 
+            document.getElementById("gb6").style.display = "none";
+            document.getElementById("gb6a").style.display = "none"; 
+        } 
+        document.getElementById("gbb7").onclick = function() { 
+            document.getElementById("gb7").style.display = "none";
+            document.getElementById("gb7a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb8").onclick = function() { 
+            document.getElementById("gb8").style.display = "none";
+            document.getElementById("gb8a").style.display = "none"; 
+        } 
+        document.getElementById("gbb9").onclick = function() { 
+            document.getElementById("gb9").style.display = "none";
+            document.getElementById("gb9a").style.display = "none"; 
+        } 
+        document.getElementById("gbb10").onclick = function() { 
+            document.getElementById("gb10").style.display = "none";
+            document.getElementById("gb10a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb12").onclick = function() { 
+            document.getElementById("gb12").style.display = "none";
+            document.getElementById("gb12a").style.display = "none"; 
+        } 
+        document.getElementById("gbb11").onclick = function() { 
+            document.getElementById("gb11").style.display = "none";
+            document.getElementById("gb11a").style.display = "none"; 
+        } 
+        document.getElementById("gbb13").onclick = function() { 
+            document.getElementById("gb13").style.display = "none";
+            document.getElementById("gb13a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb14").onclick = function() { 
+            document.getElementById("gb14").style.display = "none";
+            document.getElementById("gb14a").style.display = "none"; 
+        } 
+        document.getElementById("gbb15").onclick = function() { 
+            document.getElementById("gb15").style.display = "none";
+            document.getElementById("gb15a").style.display = "none"; 
+        } 
+        document.getElementById("gbb16").onclick = function() { 
+            document.getElementById("gb16").style.display = "none";
+            document.getElementById("gb16a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb17").onclick = function() { 
+            document.getElementById("gb17").style.display = "none";
+            document.getElementById("gb17a").style.display = "none"; 
+        } 
+        document.getElementById("gbb18").onclick = function() { 
+            document.getElementById("gb18").style.display = "none";
+            document.getElementById("gb18a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb19").onclick = function() { 
+            document.getElementById("gb19").style.display = "none";
+            document.getElementById("gb19a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb20").onclick = function() { 
+            document.getElementById("gb20").style.display = "none";
+            document.getElementById("gb20a").style.display = "none"; 
+        } 
+        document.getElementById("gbb21").onclick = function() { 
+            document.getElementById("gb21").style.display = "none";
+            document.getElementById("gb21a").style.display = "none"; 
+        } 
+        document.getElementById("gbb22").onclick = function() { 
+            document.getElementById("gb22").style.display = "none";
+            document.getElementById("gb22a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb23").onclick = function() { 
+            document.getElementById("gb23").style.display = "none";
+            document.getElementById("gb23a").style.display = "none"; 
+        } 
+        document.getElementById("gbb24").onclick = function() { 
+            document.getElementById("gb24").style.display = "none";
+            document.getElementById("gb24a").style.display = "none"; 
+        } 
+        document.getElementById("gbb25").onclick = function() { 
+            document.getElementById("gb25").style.display = "none";
+            document.getElementById("gb25a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb26").onclick = function() { 
+            document.getElementById("gb26").style.display = "none";
+            document.getElementById("gb26a").style.display = "none"; 
+        } 
+        document.getElementById("gbb27").onclick = function() { 
+            document.getElementById("gb27").style.display = "none";
+            document.getElementById("gb27a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb28").onclick = function() { 
+            document.getElementById("gb28").style.display = "none";
+            document.getElementById("gb28a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb29").onclick = function() { 
+            document.getElementById("gb29").style.display = "none";
+            document.getElementById("gb29a").style.display = "none"; 
+        } 
+        document.getElementById("gbb30").onclick = function() { 
+            document.getElementById("gb30").style.display = "none";
+            document.getElementById("gb30a").style.display = "none"; 
+        } 
+        document.getElementById("gbb31").onclick = function() { 
+            document.getElementById("gb31").style.display = "none";
+            document.getElementById("gb31a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb32").onclick = function() { 
+            document.getElementById("gb32").style.display = "none";
+            document.getElementById("gb32a").style.display = "none"; 
+        } 
+        document.getElementById("gbb33").onclick = function() { 
+            document.getElementById("gb33").style.display = "none";
+            document.getElementById("g33a").style.display = "none"; 
+        } 
+        document.getElementById("gbb34").onclick = function() { 
+            document.getElementById("gb34").style.display = "none";
+            document.getElementById("gb34a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb35").onclick = function() { 
+            document.getElementById("gb35").style.display = "none";
+            document.getElementById("gb35a").style.display = "none"; 
+        } 
+        document.getElementById("gbb36").onclick = function() { 
+            document.getElementById("gb36").style.display = "none";
+            document.getElementById("gb36a").style.display = "none"; 
+        } 
+        document.getElementById("gbb37").onclick = function() { 
+            document.getElementById("gb37").style.display = "none";
+            document.getElementById("gb37a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb38").onclick = function() { 
+            document.getElementById("gb38").style.display = "none";
+            document.getElementById("gb38a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb39").onclick = function() { 
+            document.getElementById("gb39").style.display = "none";
+            document.getElementById("gb39a").style.display = "none"; 
+        } 
+        document.getElementById("gbb40").onclick = function() { 
+            document.getElementById("gb40").style.display = "none";
+            document.getElementById("gb40a").style.display = "none"; 
+        } 
+        document.getElementById("gbb41").onclick = function() { 
+            document.getElementById("gb41").style.display = "none";
+            document.getElementById("gb41a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb42").onclick = function() { 
+            document.getElementById("gb42").style.display = "none";
+            document.getElementById("gb42a").style.display = "none"; 
+        } 
+        document.getElementById("gbb43").onclick = function() { 
+            document.getElementById("gb43").style.display = "none";
+            document.getElementById("g43a").style.display = "none"; 
+        } 
+        document.getElementById("gbb44").onclick = function() { 
+            document.getElementById("gb44").style.display = "none";
+            document.getElementById("gb44a").style.display = "none"; 
+        } 
+
+        document.getElementById("gbb45").onclick = function() { 
+            document.getElementById("gb45").style.display = "none";
+            document.getElementById("gb45a").style.display = "none"; 
+        } 
+        document.getElementById("gbb46").onclick = function() { 
+            document.getElementById("gb46").style.display = "none";
+        } 
+        document.getElementById("gbb47").onclick = function() { 
+            document.getElementById("gb47").style.display = "none";
+        } 
+
+        document.getElementById("gbb48").onclick = function() { 
+            document.getElementById("gb48").style.display = "none"; 
+        } 
+
+
+</script>
+
+</body>
+
+</html>

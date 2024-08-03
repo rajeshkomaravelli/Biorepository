@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Review Page</title>
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+   <link rel="stylesheet" href="./style1.css">
+   <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
+
+
+</head>
+
+<body>
+
+   <div class="table-users">
+      <div class="header">Reviews</div>
+
+      <table cellspacing="0">
+         <tr>
+            <th>DISEASE</th>
+            <th>TYPE_OF_INHERITANCE</th>
+            <th>GENE_RESPONSIBLE</th>
+            <th>PROTEIN_RESPONSIBLE</th>
+            <th>CHROMOSOME_RESPONSIBLE</th>
+         </tr>
+         {% for review in reviews %}
+         <tr>
+            <td>{{review['DISEASE']}}</td>
+            <td>{{review['TYPE_OF_INHERITANCE']}}</td>
+            <td>{{review['GENE_RESPONSIBLE']}}</td>
+            <td>{{review['PROTEIN_RESPONSIBLE']}}</td>
+            <td>{{review['CHROMOSOME_RESPONSIBLE']}} </td>
+            {% endfor %}
+      </table>
+   </div>
+
+
+
+
+</body>
+
+</html>

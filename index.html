@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trial-Biotech</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s1.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s2.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s3.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s4.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s5.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s6.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s7.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s8.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s9.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='s10.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='contact.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='OurResearch.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='OurTeam.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='Career.html') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Integration</title>
+  <!--------------------------------------------------Bootsrap CSS CDN  -------------------------------------------->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!---------------------------------CSS cdn for Owl carousel--------------------------------------------------->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+      @keyframes blink{
+        /* 50%{
+          color: yellow;
+        } */
+        15%{ color: #3f51b5;
+        }
+        15%{ color: floralwhite;
+        }
+        35%{ color: yellow;
+        }
+        15%{ color: pink;
+        }
+        15%{ color: springgreen;
+        }
+        15%{ color: lime;
+        }
+    
+      }
+
+
+      *{
+    padding: 0%;
+    margin: 0%;
+}
+    </style>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <script>
+  function sendData() {
+      // Retrieve the form data
+      const form = document.getElementById("myForm");
+      const formData = new FormData(form);
+
+      // Make the API request
+      fetch("http://localhost:5000/senddata", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the API response
+          console.log(data);
+          // Perform any additional actions with the response
+          form.style.display = "none";
+        })
+        .catch(error => {
+          // Handle errors
+          console.error(error);
+        });
+    }
+  </script>
+      <script>
+      function openChat() {
+            document.getElementById("chatContainer").style.display = "flex";
+            var iframe1 = document.getElementById('chatFrame');
+            iframe1.src = "https://console.dialogflow.com/api-client/demo/embedded/8b90a78c-78ae-42ac-b9d7-eb4fbec580d8";
+        }
+
+        function closeChat() {
+            document.getElementById("chatContainer").style.display = "none";
+            var iframe1 = document.getElementById('chatFrame');
+            iframe1.src = '';
+        }
+    </script>
+
+</head>
+
+<body>
+
+
+
+
+  <!---------------------------------------- NavBar------------------------------------ -->
+
+
+  <nav class="navbar" style="background-color: dodgerblue;margin-top: 0px;">
+    <div style="display: flex;">
+      <!-- <div>
+        <img src="Asset/hmlogo.png" alt="" style="height: 110px;width: 90px;">
+      </div> -->
+      <div style="padding-left: 420px;padding-top: 30px;">
+        <h2 style="font-size: 80px;margin-top: 0px; animation: blink 10s linear infinite;color: rgb(234, 12, 12);">Shyam Repositories</h2>
+      </div>
+    </div>
+
+  </nav>
+
+
+  <nav class="navbar navbar-expand-lg " style="background-color: rgb(46, 46, 159);">
+    <div class="container-fluid">
+      <!-- <a class="navbar-brand" href="index.html">
+        <h3>Shyam Repositories</h3>
+      </a> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="." style="padding-left: 110px;">
+              <h3>Home</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('static', filename='OurResearch.html') }}" style="padding-left:110px;">
+              <h3>Our Research</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('static', filename='OurTeam.html') }}" style="padding-left: 110px;">
+              <h3>Our Team</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('static', filename='Career.html') }}" style="padding-left: 110px;">
+              <h3>Career Opportunities</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('static', filename='contact.html') }}" style="padding-left: 110px;">
+              <h3>Contact Us</h3>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+
+
+  <!-- <nav class="navbar" style="background-color: rgb(18, 8, 129);height: 90px;">
+    <img src="{{url_for('static',filename='Asset/collage_logo.png')}}" alt="" style="height: 80px;width: 70px; padding-left: 0px; margin-left: 30px;">
+    <h1 style="padding-right: 440px; color: aqua;">Welcome To Shyam Repositories</h1>
+  </nav>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" class="navbar bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+      aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <a class="navbar-brand brand" href="index.html" style="color: slategray;">Shyam Repositories</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Our Tech</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Our Research</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Our Product</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Our Team</a>
+        </li>
+      </ul>
+      <img src="{{url_for('static',filename='Asset/logo.png')}}" alt="" style="height: 60px; width: 150px; ">
+    </div>
+  </div>
+</nav> -->
+
+
+  <!------------------------------------------------------nav-------------------------------------->
+  <!-- <nav class="navbar fixed-bottom navbar-expand-lg bg-body-tertiary" class="navbar bg-primary" data-bs-theme="dark" style="height: 50px;">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+
+
+        -->
+
+          <div class="videom" style="padding-bottom: 0%;">
+          <video autoplay loop muted height="100%" width="100%">
+            <source src="{{ url_for('static', filename='Asset/HMsample10.mp4') }}" type="video/mp4">
+          </video> 
+
+  <!----------------------------------------------- Background IMG  ----------------------------------------------->
+  <div class="">
+
+    <div class="">
+    </div>
+  </div>
+      <!-- <div class="learn" style="padding-bottom: 30px;padding-left: 710px;"> -->
+      <!-- Button trigger modal -->
+      <!-- <button type="button" class="btn btn-secondary tyu" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Download
+              </button> -->
+
+      <!-- Modal -->
+     
+
+     
+      <div class="modal fade" id="exampleModal"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Sign Up</h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
+            </div>
+            <div class="modal-body">
+             <form name="signing" id="myForm" onsubmit="sendData(); return false;">
+                <!--<form id="myForm" onsubmit="return validation()">-->
+                <div class="mb-3">
+                  <label for="exampleInputName1" class="form-label">Name</label>
+                  <input name="User_Name" type="text" class="form-control" id="exampleInputName1" required>
+                  <div id="emailHelp" class="form-text"></div>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email address</label>
+                  <input name="User_Email" type="email" placeholder="email" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" required>
+                  <span id="erroremail" style="font-size: 10px;color: red;"></span>
+                  <div class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <!-- <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Password</label>
+                              <input name="User_Password" type="password"  class="form-control" id="exampleInputPassword1">
+                            </div> -->
+                <div class="mb-3">
+                  <label for="exampleInput1" class="form-label">Purpose For Visit</label>
+                  <input type="text" name="Reason_For_Download" class="form-control" id="exampleInputReason1" required>
+                  <div id="emailHelp" class="form-text"></div>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputName1" class="form-label">Organization Belonging To</label>
+                  <input name="Organization_Belonging_To" type="text" class="form-control" id="exampleInputName2" required>
+                  <div id="emailHelp" class="form-text"></div>
+                </div>
+                <!-- <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div> -->
+                <!--<button type="button" onclick="sendData()" class="btn-style">Submit</button>-->
+                <!--</form>-->
+                 <button class="btn-style" id="bang" type="submit" data-bs-dismiss="modal" disabled="disabled">Submit</button>
+              </form>
+              <!-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal"> <a href="Asset/s1.jpg"
+                          download='piechartImg' class="download-btn">Download
+                          <i class="fa fa-download"></i>
+                        </a> </button> !-->
+            </div>
+          </div>
+
+       
+    </div>
+  </div>
+      <!-- </div> -->
+
+
+
+
+      <!-- <div class="learn" style="padding-top: 30px;"> -->
+      <!-- Button trigger modal -->
+      <!-- <button type="button" class="btn btn-secondary tyu" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Learn More
+                </button>
+                 -->
+      <!-- Modal -->
+      <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Sign Up</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form name="signing">
+                           <div class="mb-3">
+                              <label for="exampleInputName1" class="form-label">Name</label>
+                              <input name="User_Name" type="text" class="form-control" id="exampleInputName1" >
+                              <div id="emailHelp" class="form-text"></div>
+                            </div>
+                           <div class="mb-3">
+                             <label for="exampleInputEmail1" class="form-label">Email address</label>
+                             <input name="User_Email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                             <div  class="form-text">We'll never share your email with anyone else.</div>
+                           </div>
+                           <div class="mb-3">
+                             <label for="exampleInputPassword1" class="form-label">Password</label>
+                             <input name="User_Password" type="password" class="form-control" id="exampleInputPassword1">
+                           </div>
+                           <div class="mb-3 form-check">
+                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                             <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                           </div>
+                           <button type="submit" class="btn btn-primary">Submit</button>
+                         </form>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+               </div> -->
+
+  <!-- <div class="bgimg1" style="padding-left: 30px;">
+        <h1 class="inspire">Unleashing Biotech's Boundless Potential, One Repository at a Time</h1>
+         <h3 class="inspara">Welcome to our Biotech Repositories website, your one-stop destination for accessing a vast array of cutting-edge biological resources. We pride ourselves on being the ultimate hub for researchers, scientists, and enthusiasts in the biotechnology field. Our meticulously curated collection boasts an extensive range of genetic materials, biomolecules, cell lines, and much more, carefully sourced from reputable laboratories and institutions worldwide. With our user-friendly interface, you can effortlessly explore and navigate through our comprehensive database, empowering you to accelerate your research and drive breakthrough discoveries. Whether you're searching for rare gene sequences, seeking novel protein structures, or aiming to collaborate with like-minded experts, our platform provides a seamless experience, connecting you to the tools and knowledge needed to unlock the full potential of biotechnology. Join our vibrant community today and embark on an exciting journey at the forefront of biotech innovation.</h3>
+      </div>
+       -->
+  <!----------------------------------------------------Bootstrap Carousel  ------------------------------------------->
+  <!-- <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="cimg1">
+              <div class="blur1">
+                <h1 class="cran1">DNA Fingerprinting</h1>
+              </div>
+          </div>
+          </div>
+          <div class="carousel-item">
+            <div class="cimg2">
+              <div class="blur1">
+                <h1 class="cran2">Microfluidics</h1>
+              </div>
+          </div>
+          </div>
+          <div class="carousel-item">
+            <div class="cimg3">
+              <div class="blur1">
+                <h1 class="cran3">Synthetic Biology</h1>
+              </div>
+          </div>
+          </div>
+          <div class="carousel-item">
+            <div class="cimg4">
+              <div class="blur1">
+                <h1 class="cran4">Precision Medicine</h1>
+              </div>
+          </div>
+          </div>
+          <div class="carousel-item">
+            <div class="cimg5">
+              <div class="blur1">
+                <h1 class="cran5">Gene Editing</h1>
+              </div>
+          </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      -->
+
+
+
+
+  <!----------------------------------------------------Owl carousel effect---------------------------------------------->
+  <div class="service-section">
+    
+    <div class="owl-carousel owl-theme">
+     <!--- <div class="item"
+        <div class="card" style="height: 500px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m1.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Genetic testing and analysis</h3>
+          <p class="vb">Genetic testing is a type of medical test that analyses an individual’s DNA to identify changes
+            or variations in genes, chromosomes or proteins. It provides information regarding inherited traits, risk
+            factors and potential response to medicines. The results of a genetic test can confirm or rule out a
+            suspected genetic condition or help determine a person’s chance of developing or passing on a genetic
+            disorder. Genetic tests are generally performed on a sample of blood, hair, skin, amniotic fluid or other
+            tissue. This test includes Studying of dna sequences to find mutations that aggravate the risk of the
+            disorder, Analysing chromosomes to find any mutations that cause the disorder, Studying biochemistry of
+            proteins to find any irrationalities that trigger the condition. <br> This page gives information regarding
+            the gene variations and its locations . </p>
+            <div>
+
+
+            </div>
+        </div>
+      </div>--->
+
+
+
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m1.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Genetic testing and analysis</h3>
+          <p class="vb">Genetic testing is a type of medical test that analyses an individual’s DNA to identify changes
+            or variations in genes, chromosomes or proteins. It provides information regarding inherited traits, risk
+            factors and potential response to medicines. The results of a genetic test can confirm or rule out a
+            suspected genetic condition or help determine a person’s chance of developing or passing on a genetic
+            disorder. Genetic tests are generally performed on a sample of blood, hair, skin, amniotic fluid or other
+            tissue.</p>
+        <div style="margin-top:40px">   <a href="{{ url_for('static', filename='s1.html') }}" class="btn-style" >FOR MORE</a> </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m2.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Bioinformatics tools and software</h3>
+          <p class="vb">Bioinformatics tools are useful aids for comparing, analysing and interpreting genetic and
+            genomic data. They are specifically designed for the extraction of meaningful information. They are also
+            crucial in the understanding the evolutionary aspects of molecular biology. Bioinformatics enables us to
+            handle the huge amounts of data involved and helps in finding common patterns.This page contains information regarding the
+            bioinformatic tools and softwares currently available for research purposes.</p>
+        <div style="margin-top:40px">   <a href="{{ url_for('static', filename='s2.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m3.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Drug discovery and development</h3>
+          <p class="vb">Drug discovery is a process that aims at identifying a small synthetic molecule or a large
+            biomolecule and developing new medications to treat diseases. The overall process from discovery to
+            marketing of a drug can take 10 to 15 years. Drug databases are collections of information regarding
+            drugs,its targets,activities etc.This page contains information regarding various bioinformatic tools and softwares currently available
+            for research purposes.
+          </p>
+        <div style="margin-top:60px;">   <a href="{{ url_for('static', filename='s3.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m4.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Biological Networking</h3>
+          <p class="vb">Bioprocessing is a process where complete living cells or their components like enzymes, are
+            used to obtain desired biochemical changes or products. It is done at aerobic or anaerobic conditions.
+            Fermentation is one of the oldest bioprocessing technique. Fermentation is performed only under anaerobic
+            conditions.
+            <br> This page includes information regarding all the bioprocessing and fermentation techniques and all the
+            equipment used.
+          </p>
+        <div style="margin-top:77px;">   <a href="{{ url_for('static', filename='s4.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m5.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Agricultural biotechnology</h3>
+          <p class="vb">Agricultural biotechnology (agritech) is a field of agricultural science which includes a wide
+            range of scientific tools and techniques, including traditional breeding techniques, that alter living
+            organisms, or parts of organisms, to make or modify products.This page contains data regarding different crops types like cereal, medicinal plants, fruits and
+            vegetables, their scientific names,uses, leaf diseases, stem diseases, root diseases, fruits diseases and
+            regions where they are cultivated.
+          </p>
+        <div style="margin-top:55px;">   <a href="{{ url_for('static', filename='s5.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m6.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Bioprocessing and fermentation</h3>
+          <p class="vb">Industrial biotechnology also known as white biotechnology is the application for industrial
+            processing and production of chemicals, materials and fuels. Processing uses enzymes and microorganisms to
+            produce products that are useful to a broad range of industrial sectors.This link provides you the information about various databases and sources
+            along with applications for studying ongoing developments in the industry and research.</p>
+      <div style="margin-top:80px;">     <a href="{{ url_for('static', filename='s6.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m7.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Stem cell research</h3>
+          <p class="vb">Stem-cell research is the area of research that studies the properties of stem cells and their
+            potential use in medicine. As stem cells are the source of all tissues, understanding their properties helps
+            in our understanding of the healthy and diseased body's development and homeostasis. This link provides the sources for research
+            papers published along with applications and databases related to stem cell research and ongoing
+            developments.</p>
+       <div style="margin-top:55px;">    <a href="{{ url_for('static', filename='s7.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m8.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Biomedical research and diagnostics</h3>
+          <p class="vb">Biomedical diagnostics is the study of the procedures that provide information to aid the
+            screening, detection, diagnosis and monitoring of disease. They work in academia and industry, but in
+            this profile we focus on those who work in academia. research on therapies (e.g., drugs, exercise, surgical
+            interventions, or medical devices) diagnostic procedures (e.g., CAT scans, prenatal diagnosis through
+            amniocentesis) preventive measures (e.g., vaccines, diet, or fluoridated toothpaste).</p>
+       <div style="margin-top:50px;">    <a href="{{ url_for('static', filename='s8.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m9.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Bioengineering and synthetic biology</h3>
+          <p class="vb">Synthetic biology is an emerging field of bioengineering that utilizes concepts and information
+            from a variety of research areas, such as molecular biology, to
+            develop methods and tools to engineer and repurpose natural biological systems for applications in
+            biomedicine. This link provides you the information about various developments made on using various
+            technologies along with sources of databases and research papers published.</p>
+      <div style="margin-top:15px;">     <a href="{{ url_for('static', filename='s9.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="card" style="height: 680px;">
+          <div class="card1-img">
+            <img src="{{ url_for('static', filename='Asset/m10.png') }}" width="100%" height="100%" alt="">
+          </div>
+          <h3>Biotechnology consulting services</h3>
+          <p class="vb">Biotechnology consulting (or biotech consulting) refers to the practice of assisting
+            organizations involved in research and commercialization of biotechnology in improving their methods and
+            efficiency of production, and approaches to R&D.There are different types of consulting one such
+            special type is patent consulting. This link provides you the information about various types of consulting
+            and what research is needed to make developments in the sources provided in the database</p>
+       <div style="margin-top:45px;"><a href="{{ url_for('static', filename='s10.html') }}" class="btn-style">FOR MORE</a> </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+   <div id="chatIcon" onclick="openChat()">
+        <img src="{{ url_for('static', filename='Asset/Chatbot Message Bubble.jpg') }}" alt="Chat Icon" />
+    </div>
+    <!-- Chatbot Container -->
+    <div id="chatContainer">
+        <div id="chatHeader">
+            <span>Chatbot</span>
+            <button id="closeButton" onclick="closeChat()">X</button>
+        </div>
+        <iframe id="chatFrame"  allow="microphone;"></iframe>
+    </div>
+
+
+  <!-- visitor counter -->
+
+
+  <div id="sfchgyq4ce932yuwccket27u55gqurldu64"></div>
+  <script type="text/javascript"
+    src="https://counter10.optistats.ovh/private/counter.js?c=hgyq4ce932yuwccket27u55gqurldu64&down=async" async>
+    </script>
+    <div id="webCounter">
+        <noscript>
+            <a href="https://www.freecounterstat.com" title="web counters">
+                <img src="https://counter10.optistats.ovh/private/freecounterstat.php?c=hgyq4ce932yuwccket27u55gqurldu64" border="0" title="web counters" alt="web counters">
+            </a>
+        </noscript>
+    </div>
+
+
+  <!-------------------------------------------------Video----------------------------------------------->
+  <!-- <div class="video" style="padding-bottom: 0%;">
+    <video autoplay loop muted height="100%" width="100%">
+       <source src="{{ url_for('static', filename='Asset/vib.mp4') }}" type="video/mp4">
+    </video>
+   </div> -->
+  <!------------------------------------------------------Footer --------------------------------------------------------------->
+  <div class="foot">
+    <div class="logofo">
+      <div>
+        <h7
+          style="color: aliceblue; float: left;padding-right: 100px;padding-top: 25px;text-align: justify;padding-left: 30px;">
+          Disclaimer : The content provided on this biotech repository website is for general informational purposes only. The
+          information is gathered from various sources and is subject to change without notice. While we make every
+          effort to ensure the accuracy and reliability of the information presented, we do not guarantee its
+          completeness or timeliness. The materials and data available on this website do not constitute professional
+          advice or recommendations. Users are encouraged to seek qualified professional advice before making any
+          decisions based on the information provided here.</h7>
+      </div>
+      <!-- <div style="padding-right: 260px;padding-top: 70px;">
+        <img src="Asset/Logo.png" alt="" style="height: 100px; ">
+      </div> -->
+      <!-- <div class="footer-col-3">
+        <h3>Useful links</h3>
+        <ul>
+          <li>Overview</li>
+          <li>Blog</li>
+          <li>Partnerships</li>
+          <li>Publications</li>
+        </ul>
+      </div> -->
+      <!-- <div class="footer-col-4">
+        <h3>Follow us</h3>
+        <ul>
+          <li>Facebook</li>
+          <li>Twitter</li>
+          <li>Instagram</li>
+          <li>YouTube</li>
+        </ul>
+      </div> -->
+    </div>
+
+    <div class="copy1" style="padding-bottom: 0;padding-top: 10px; background-color: aliceblue;">
+      <a href="mailto:shyamperugu@nitw.ac.in" style="text-decoration: none; color: black; font-size: 15
+        
+        px;">Email-Us</a> <i class="fa-solid fa-envelope"></i> &emsp;
+      <a href="tel:+919948561761" style="text-decoration: none; color: black;font-size: 15px;">Call-Us</a> <i
+        class="fa-solid fa-headset"></i> &emsp;
+      <a href="https://wa.me/+919948561761" style="text-decoration: none; color: black;font-size: 15px;">Whatsapp</a> <i
+        class="fa-brands fa-whatsapp"></i> <br>
+      <!-- <a href="folder/xyz.pdf" style="text-decoration: none; color: black;font-size: 15px;">TERMS AND CONDITIONS</a> -->
+     
+      COPYRIGHT &copy; 2023-2024 &nbsp; www.Shyam_Repositories.com &nbsp; &nbsp; &nbsp; 
+      REGISTER &reg;  &nbsp; &nbsp;
+      TRADEMARK &trade;
+      
+    </div>
+
+  </div>
+
+  <!--                                        Jquery CDN                                          -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+  <!-----------------------------------------Bootstrap js CDN  --------------------------------------------->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+  </script>
+
+  <!---------------------------------------js cdn for Owl carousel------------------------------------------------------>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+    integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+  <script>
+    $(document).ready(function () {
+      $("#exampleModal").modal('show');
+    });
+  </script>
+  <!-- <script>
+    $(document).ready(function () {
+      $('#exampleModal').modal({backdrop: 'static', keyboard: false}) ;
+    });
+  </script> -->
+
+<script>
+$(document).ready(function() {
+    $('#exampleInputName1' && '#exampleInputEmail1' && '#exampleInputReason1' && '#exampleInputName2').on('input change', function() {
+        if($(this).val() != '') {
+            $('#bang').prop('disabled', false);
+        } else {
+            $('#bang').prop('disabled', true);
+        }
+    });
+});
+
+
+</script>
+
+
+
+  <!---------------------------------------------------js for Owl carousel------------------------------------------------------>
+
+  <script>
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      responsiveClass: true,
+      responsive: {
+        0: {
+          items: 1,
+          nav: true,
+        },
+        600: {
+          items: 1,
+          nav: false,
+        },
+        1000: {
+          items: 3,
+          nav: true,
+          loop: false
+        }
+      }
+    })
+  </script>
+
+  <!-- Google sheet connection -->
+  <script>
+    const scriptURL =
+      'https://script.google.com/macros/s/AKfycbyzWfK1Fxbka0aXuy4fctlRkYjc1-K1TJ9e09vUhsKx1F6Y-9UJY-Dd8zE876ozxDy7/exec'
+    const form = document.forms['signing']
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, {
+          method: 'POST',
+          body: new FormData(form)
+        })
+        .then(response => alert(
+          "Thanks for you valuable feedback!!!"))
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+
+</body>
+
+</html>
